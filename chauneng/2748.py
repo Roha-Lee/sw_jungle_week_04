@@ -4,7 +4,7 @@ dp = [0, 1]
 
 N = int(stdin.readline())
 
-def fibonacci(n: int) -> int:
+def fibonacci() -> int:
     
     n = 1
     tmp = int()
@@ -21,6 +21,6 @@ def fibonacci(n: int) -> int:
 
 
 if N >1:
-    print(fibonacci(N))
+    print(fibonacci())
 else:
     print(N)
