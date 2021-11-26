@@ -1,5 +1,5 @@
 import sys 
-def max_value_knapsac(num_stuff, weights, values, target_weight):
+def max_value_knapsack(num_stuff, weights, values, target_weight):
     DP = [[0] * (target_weight + 1) for _ in range(num_stuff + 1)]
 
     for r in range(1, num_stuff+1):
@@ -21,4 +21,4 @@ if __name__ == '__main__':
         weight, value = map(int, input().split())
         values.append(value)
         weights.append(weight)
-    print(max_value_knapsac(num_stuff, weights, values, target_weight))
+    print(max_value_knapsack(num_stuff, weights, values, target_weight))
