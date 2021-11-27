@@ -3,9 +3,7 @@ from sys import stdin
 firstLine = list(stdin.readline().rstrip('\n'))
 secondLine = list(stdin.readline().rstrip('\n'))
 
-# print(firstLine, secondLine)
 dp = []
-
 for i in range(len(firstLine)+1):
     dp.append([0]*((len(secondLine))+1))
 
