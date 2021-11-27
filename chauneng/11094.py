@@ -2,17 +2,14 @@ from sys import stdin
 
 N = int(stdin.readline())
 
-dp = [[float('inf')]*(N+1) for _ in range(N+1)]
-arr = [0]
-for i in range(N):
-    a, b = map(int, stdin.readline().split())
-    dp[i+1][i+1] = a, b, 0
+dp = [[0]*(N) for _ in range(N)]
+arr = [list(map(int, stdin.readline().split())) for _ in range(N)]
 
-for i in range(1, N):
-    for j in range(1, N):
-        if i<j:
-            dp[i][j] = dp[i][i][0], dp[j][j][1], min(dp[i][j], dp[i][i][0] * dp[i][i][1] * dp[j][j][1] + (dp[i][i][2] + dp[j][j][2]))
-            print(dp[i][j][2])
+for diagonal in range(1, N):
+    for row in range(0, N-diagonal):
+        column = row + diagonal
+        dp[row][column] = float('inf')
+        for i in range(row, column):
+            dp[row][column] = min(dp[row][column], dp[row][i]+dp[i+1][column]+(arr[row][0]*arr[i][1]*arr[column][1]))
 
-
-print(dp)
+print(dp[0][N-1])
