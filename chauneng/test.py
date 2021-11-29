@@ -1,22 +1,7 @@
-from sys import stdin
+def nth_bit_on(n):
+    return (3 << n)
 
-dp = [0, 1]
-
-N = int(stdin.readline())
-
-def fibonacci() -> int:
-
-    n = 0
-    tmp = int()
-
-    while n < N:
-        n += 1
-        tmp = ((dp[0] % 15746) + (dp[1] % 15746)) %15746
-        if n % 2:
-            dp[0] = tmp
-        else:
-            dp[1] = tmp
-    
-    return tmp
-
-print(fibonacci())
+print(bin(nth_bit_on(1)))
+print(bin(nth_bit_on(2)))
+print(bin(nth_bit_on(3)))
+print(bin(nth_bit_on(4)))
