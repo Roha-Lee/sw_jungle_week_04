@@ -17,6 +17,7 @@ def find_path(n, last, visited, DP, distances):
             curr_val = min(curr_val, find_path(n, next, visited | (1<<next), DP, distances) + distances[last][next])
 
     DP[last][visited] = curr_val
+    print(DP)
 
     return curr_val
     
