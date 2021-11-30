@@ -1,31 +1,33 @@
 from sys import stdin
-import heapq
 
 N, K = map(int, stdin.readline().split())
 seq = list(map(int, stdin.readline().split()))
 
-nextSeq = [float('inf')]*(K+1)
+nextTurn = [float('inf')]*(K+1)
 newSeq = []
 for i in range(K-1, -1, -1):
     num = seq[i]
-    newSeq.append([-nextSeq[num], num])
-    nextSeq[num] = i
+    newSeq.append([nextTurn[num], num])
+    nextTurn[num] = i
 
-gaget = [False]*(K+1)
-plug = []
+using = [0]*(K+1)
+plug = set()
 cnt = 0
 while newSeq:
-    n, g = newSeq.pop()
-
-    if len(plug) < N:
-        heapq.heappush(plug, [n, g])
-        gaget[g] = True
+    nextUse, gaget = newSeq.pop()
     
-    else:
-        if gaget[g] is True:
-            pass
-        else:
-            heapq.heappushpop(plug, [n, g])
-            cnt += 1
+    if gaget in plug:
+        using[gaget] = nextUse
+        continue
+
+    plug.add(gaget)
+    if len(plug)<=N:
+        using[gaget] = nextUse
+        continue
+    plug = plug - {using.index(max(using))}
+    using[using.index(max(using))] = 0
+
+    using[gaget] = nextUse
+    cnt += 1
 
 print(cnt)
