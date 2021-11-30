@@ -1,56 +1,22 @@
-from sys import path, stdin
+from sys import stdin
+N = int(stdin.readline())
+COST = [list(map(int, stdin.readline().split())) for _ in range(N)]
 
-cities = int(stdin.readline())
-fare = [list(map(int, stdin.readline().split())) for _ in range(cities)]
+VISITED_ALL = (1 << N)-1
+cache = [[None]*(1 << N) for _ in range(N)]
+def dfs(last, visited):
 
-def dfs(start: int,departure: int, part_sum: int) -> None:
-    global ans
-    if part_sum > ans:
-        return 
-    if sum(visited) == cities:
-        if fare[departure][start]:
-            part_sum += fare[departure][start]
-            ans = min(ans, part_sum)
-            return 
-    
-    for arrive in range(cities):
-        if not visited[arrive]:
-            if not fare[departure][arrive]:
-                return 
-            else:
-                visited[arrive] = 1
-                dfs(start, arrive, part_sum + fare[departure][arrive])
-                visited[arrive] = 0
+    if visited == VISITED_ALL:
+        return COST[last][0] or float('inf')
 
+    if cache[last][visited] is not None:
+        return cache[last][visited]
 
+    tmp = float('inf')
+    for city in range(N):
+        if not visited & (1 << city) and COST[last][city]:
+            tmp = min(tmp, dfs(city, visited | (1 << city)) + COST[last][city])
+    cache[last][visited] = tmp
+    return tmp
 
-    # # tmp = 0
-    # for arrive in range(cities):
-    #     if not visited[arrive]:
-    #         # visited[arrive] = 1            
-    #         if not fare[departure][arrive]:
-    #             tmp = float('inf')
-    #             return
-    #         else:
-    #             tmp = tmp + fare[departure][arrive]
-    #             tmp += fare[departure][arrive]
-    #             if sum(visited) == cities:
-    #                 if fare[arrive][start]:
-    #                     tmp += fare[arrive][start]
-    #                 else:
-    #                     tmp = float('inf')
-    #             else:
-    #                 visited[arrive] = 1
-    #                 dfs(start, arrive)
-    #                 visited[arrive] = 0
-
-ans = float('inf')
-visited = [0] * cities
-for i in range(cities):
-    visited[i] = 1
-    # tmp = 0
-    dfs(i, i, 0)
-    visited[i] = 0
-    # ans = min(ans, tmp)
-
-print(ans)
+print(dfs(0, 1))
